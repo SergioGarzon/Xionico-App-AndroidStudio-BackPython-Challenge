@@ -1,13 +1,11 @@
 package com.example.xionico_app.data.services;
 
-import com.example.xionico_app.data.models.Task;
 
 import java.util.List;
+import com.example.xionico_app.data.models.CreateTask;
+import com.example.xionico_app.data.models.TaskResponse;
+import com.example.xionico_app.data.models.StatusUpdate;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -26,25 +24,8 @@ public interface TaskApiService {
     @PATCH("tasks/{apiId}")
     Call<TaskResponse> updateTaskStatus(@Path("apiId") String apiId, @Body StatusUpdate status);
 
-    @Setter
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    class CreateTask {
-        String title;
-        String description;
-    }
 
-    @Setter
-    @Getter
-    class TaskResponse {
-        int id;
-        String title;
-        String description;
-        String status;
-    }
-    class StatusUpdate {
-        String status;
-        public StatusUpdate(String status) { this.status = status; }
-    }
+
+
+
 }
