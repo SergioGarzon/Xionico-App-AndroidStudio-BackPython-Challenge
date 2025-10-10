@@ -1,6 +1,7 @@
 package com.example.xionico_app.view.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -31,9 +34,6 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.work.Configuration;
 
-import lombok.extern.java.Log;
-
-@Log
 public class MainActivity extends AppCompatActivity {
 
     private Button btnTarea, btnDatosExternos;
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         taskRepository = new TaskRepository(getApplicationContext());
 
         try {
-            // taskRepository.deleteAllTask();    // Esto es de prueba nomas
-            scheduleSyncWorker();
+            //scheduleSyncWorker();
+            runInitialSyncWorker();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,15 +105,31 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, ExternalDataActivity.class));
     }
 
+    private void runInitialSyncWorker() {
+        Log.d("JOB", "starting worker");
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        OneTimeWorkRequest syncRequest = new OneTimeWorkRequest.Builder(TaskSyncWorker.class)
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance(this).enqueueUniqueWork(
+                "initial_task_sync",
+                ExistingWorkPolicy.KEEP,
+                syncRequest
+        );
+    }
+
     private void scheduleSyncWorker() {
-        //log.info("starting worker");
-        /*Constraints constraints = new Constraints.Builder()
+        Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED) // solo con internet
-                .build();*/
+                .build();
 
         PeriodicWorkRequest syncWorkRequest =
                 new PeriodicWorkRequest.Builder(TaskSyncWorker.class, 15, TimeUnit.MINUTES)
-                       // .setConstraints(constraints)
+                        .setConstraints(constraints)
                         .build();
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(

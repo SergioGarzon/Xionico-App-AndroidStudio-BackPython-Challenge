@@ -58,7 +58,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         holder.chkStatus.setChecked(isCompleted);
 
         holder.chkStatus.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            taskRepository.updateTask(holder.id, isChecked ? "COMPLETED" : "PENDING");
+            taskRepository.updateTask(holder.id, isChecked ? "Completed" : "Pending");
 
             if (isChecked) {
                 holder.txtTitle.setPaintFlags(holder.txtTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

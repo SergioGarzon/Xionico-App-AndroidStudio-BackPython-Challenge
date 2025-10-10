@@ -18,7 +18,6 @@ public class TaskSyncWorker  extends Worker {
     @Override
     public Result doWork() {
         TaskRepository repo = new TaskRepository(getApplicationContext());
-        Log.d("SyncWorker", "worker stared");
         try {
             repo.syncWithServer();  // Sincroniza tareas
             return Result.success();

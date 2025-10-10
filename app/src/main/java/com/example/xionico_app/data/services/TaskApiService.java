@@ -17,10 +17,10 @@ import retrofit2.http.Path;
 
 public interface TaskApiService {
 
-    @GET("tasks")
+    @GET("tasks/")
     Call<List<TaskResponse>> getTasks();
 
-    @POST("tasks")
+    @POST("tasks/")
     Call<TaskResponse> createTask(@Body CreateTask task);
 
     @PATCH("tasks/{apiId}")
