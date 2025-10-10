@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
         taskRepository = new TaskRepository(getApplicationContext());
 
         try {
-            //scheduleSyncWorker();
-            runInitialSyncWorker();
+            scheduleSyncWorker();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        //taskRepository.syncWithServer();
         List<Task> currentTasks = taskRepository.getAllTasks();
 
         if (taskAdapter != null)
@@ -105,30 +104,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, ExternalDataActivity.class));
     }
 
-    private void runInitialSyncWorker() {
-        Log.d("JOB", "starting worker");
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-
-        OneTimeWorkRequest syncRequest = new OneTimeWorkRequest.Builder(TaskSyncWorker.class)
-                .setConstraints(constraints)
-                .build();
-
-        WorkManager.getInstance(this).enqueueUniqueWork(
-                "initial_task_sync",
-                ExistingWorkPolicy.KEEP,
-                syncRequest
-        );
-    }
-
     private void scheduleSyncWorker() {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED) // solo con internet
                 .build();
 
         PeriodicWorkRequest syncWorkRequest =
-                new PeriodicWorkRequest.Builder(TaskSyncWorker.class, 15, TimeUnit.MINUTES)
+                new PeriodicWorkRequest.Builder(TaskSyncWorker.class, 2, TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .build();
 

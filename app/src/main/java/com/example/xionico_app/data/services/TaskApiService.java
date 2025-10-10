@@ -25,7 +25,4 @@ public interface TaskApiService {
     Call<TaskResponse> updateTaskStatus(@Path("apiId") String apiId, @Body StatusUpdate status);
 
 
-
-
-
 }

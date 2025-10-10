@@ -19,11 +19,11 @@ public class TaskSyncWorker  extends Worker {
     public Result doWork() {
         TaskRepository repo = new TaskRepository(getApplicationContext());
         try {
-            repo.syncWithServer();  // Sincroniza tareas
+            repo.syncWithServer();
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.retry(); // Reintenta si falla
+            return Result.retry();
         }
     }
 }

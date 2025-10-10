@@ -18,6 +18,10 @@ public interface DaoTasks {
     @Query("UPDATE Task SET status= :status, needsSync = 1 WHERE id= :id")
     void updateTasks(int id, String status);
 
+    @Query("UPDATE Task SET needsSync = 0 WHERE id= :id")
+    void updateSynkTasks(int id);
+
+
     @Insert
     void insertTasks(Task ... task);
 
@@ -27,4 +31,6 @@ public interface DaoTasks {
     @Query("DELETE FROM task WHERE id > 0")
     void deleteAllTask();
 
+    @Query("SELECT EXISTS(SELECT 1 FROM Task WHERE apiId = :apiId)")
+    boolean getTaskByApiId(int apiId);
 }
