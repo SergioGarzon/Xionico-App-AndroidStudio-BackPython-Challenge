@@ -40,6 +40,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
     public void onBindViewHolder(@NonNull TaskDetailHolder holder, int position) {
         Task currentTask = listTask.get(position);
         holder.id = currentTask.getId();
+        holder.apiId = currentTask.getApiId();
         String status = currentTask.getStatus();
         boolean isCompleted = status != null && status.equalsIgnoreCase("COMPLETED");
 
@@ -58,7 +59,7 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         holder.chkStatus.setChecked(isCompleted);
 
         holder.chkStatus.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-            taskRepository.updateTask(holder.id, isChecked ? "Completed" : "Pending");
+            taskRepository.updateTask(holder.id, isChecked ? "Completed" : "Pending", holder.apiId);
 
             if (isChecked) {
                 holder.txtTitle.setPaintFlags(holder.txtTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -87,6 +88,8 @@ public class TaskDetailsAdapter extends RecyclerView.Adapter<TaskDetailsAdapter.
         private CheckBox chkStatus;
 
         private int id = 0;
+
+        private int apiId = 0;
 
         public TaskDetailHolder(@NotNull View itemView) {
             super(itemView);

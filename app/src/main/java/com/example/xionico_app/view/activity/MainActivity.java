@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ExistingWorkPolicy;
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private TaskDetailsAdapter taskAdapter;
     private TaskRepository taskRepository;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         btnTarea = findViewById(R.id.btnTarea);
         btnDatosExternos = findViewById(R.id.btnDatosExternos);
         rcvTaskList = findViewById(R.id.rcvTaskList);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            loadData();
+        });
 
         taskRepository = new TaskRepository(getApplicationContext());
 
@@ -89,11 +98,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //taskRepository.syncWithServer();
+        loadData();
+    }
+
+    private void loadData() {
+        swipeRefreshLayout.setRefreshing(true);
+        taskRepository.syncWithServer();
         List<Task> currentTasks = taskRepository.getAllTasks();
 
         if (taskAdapter != null)
             taskAdapter.setTasks(currentTasks);
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void changeActivityNewTask(View v) {
@@ -120,4 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 syncWorkRequest
         );
     }
+
+
 }

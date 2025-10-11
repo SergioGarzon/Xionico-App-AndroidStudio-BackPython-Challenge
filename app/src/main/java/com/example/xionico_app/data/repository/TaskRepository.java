@@ -36,8 +36,8 @@ public class TaskRepository {
         daoTasks.insertTasks(task);
     }
 
-    public void updateTask(int id, String status) {
-        daoTasks.updateTasks(id, status);
+    public void updateTask(int id, String status, int apiId) {
+        daoTasks.updateTask(id, status, true, apiId);
     }
 
     public List<Task> getAllTasks() {
@@ -47,12 +47,15 @@ public class TaskRepository {
     public void syncWithServer() {
         List<Task> localTasks = daoTasks.getTasksToSync();
         for (Task task : localTasks) {
+            log.info(task.toString());
             if(task.getApiId() == 0) {
                 var apiTask = new CreateTask(task.getTitle(), task.getDescription());
                 api.createTask(apiTask).enqueue(new Callback<TaskResponse>() {
                     @Override
                     public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                        var taskResponse = response.body();
                         log.info("SYNC - Created new task: " + task.getId());
+                        daoTasks.updateTask(task.getId(), task.getStatus(), false, taskResponse.getId());
                     }
 
                     @Override
@@ -66,9 +69,9 @@ public class TaskRepository {
 
                     @Override
                     public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+                        var taskResponse = response.body();
                         log.info("SYNC - Updated task: " + task.getId());
-                        task.setNeedsSync(false);
-                        daoTasks.updateSynkTasks(task.getId());
+                        daoTasks.updateTask(task.getId(), task.getStatus(), false, taskResponse.getId());
                     }
 
                     @Override

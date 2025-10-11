@@ -18,7 +18,7 @@ public abstract class AppDBSQLite extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(
                                     context.getApplicationContext(),
                                     AppDBSQLite.class,
-                                    "TodoDB-app"
+                                    "ToDoDB-appAndroid"
                             ).allowMainThreadQueries()
                             .build();
                 }

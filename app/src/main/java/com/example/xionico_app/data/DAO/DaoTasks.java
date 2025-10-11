@@ -15,12 +15,8 @@ public interface DaoTasks {
     @Query("SELECT * FROM Task WHERE needsSync = 1")
     List<Task> getTasksToSync();
 
-    @Query("UPDATE Task SET status= :status, needsSync = 1 WHERE id= :id")
-    void updateTasks(int id, String status);
-
-    @Query("UPDATE Task SET needsSync = 0 WHERE id= :id")
-    void updateSynkTasks(int id);
-
+    @Query("UPDATE Task SET status = :status, needsSync = :needsSync, apiId = :apiId  WHERE id= :id")
+    void updateTask(int id, String status, boolean needsSync, int apiId);
 
     @Insert
     void insertTasks(Task ... task);
