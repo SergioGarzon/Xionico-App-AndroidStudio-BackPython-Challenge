@@ -46,13 +46,16 @@ public class TaskRepository {
 
     public void syncWithServer() {
         List<Task> localTasks = daoTasks.getTasksToSync();
+
         for (Task task : localTasks) {
             log.info(task.toString());
+
             if(task.getApiId() == 0) {
                 var apiTask = new CreateTask(task.getTitle(), task.getDescription());
                 api.createTask(apiTask).enqueue(new Callback<TaskResponse>() {
                     @Override
                     public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+
                         var taskResponse = response.body();
                         log.info("SYNC - Created new task: " + task.getId());
                         daoTasks.updateTask(task.getId(), task.getStatus(), false, taskResponse.getId());
@@ -60,15 +63,18 @@ public class TaskRepository {
 
                     @Override
                     public void onFailure(Call<TaskResponse> call, Throwable t) {
+
                         log.warning("SYNC - Failed to create: " + task.getId());
                     }
                 });
             } else {
+
                 api.updateTaskStatus(String.valueOf(task.getApiId()), new StatusUpdate(task.getStatus()))
                         .enqueue(new Callback<TaskResponse>() {
 
                     @Override
                     public void onResponse(Call<TaskResponse> call, Response<TaskResponse> response) {
+
                         var taskResponse = response.body();
                         log.info("SYNC - Updated task: " + task.getId());
                         daoTasks.updateTask(task.getId(), task.getStatus(), false, taskResponse.getId());
@@ -88,9 +94,11 @@ public class TaskRepository {
                 if (response.isSuccessful()) {
                     var serverTasks = response.body();
                     for (TaskResponse apiTask : serverTasks) {
+
                         if(daoTasks.getTaskByApiId(apiTask.getId())) {
                             continue;
                         }
+
                         Task task = new Task();
                         task.setApiId(apiTask.getId());
                         task.setTitle(apiTask.getTitle());

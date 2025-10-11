@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void scheduleSyncWorker() {
         Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED) // solo con internet
+                .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
 
         PeriodicWorkRequest syncWorkRequest =
@@ -131,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
                         .build();
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-                "task_sync_worker", // ID único del trabajo
-                ExistingPeriodicWorkPolicy.KEEP, // No lo sobrescribe si ya está encolado
+                "task_sync_worker",
+                ExistingPeriodicWorkPolicy.KEEP,
                 syncWorkRequest
         );
     }
