@@ -66,7 +66,7 @@ public class AddTaskActivity extends AppCompatActivity {
         if(txtTitulo.getEditText().getText().toString().equals("") || txtDescripcion.getEditText().getText().toString().equals("")) {
             mensajeInformativo("Faltan campos por completar", "Error!");
         } else {
-            task = new Task(0, txtTitulo.getEditText().getText().toString(), txtDescripcion.getEditText().getText().toString(), "PENDING");
+            task = new Task(0, txtTitulo.getEditText().getText().toString(), txtDescripcion.getEditText().getText().toString(), "Pending");
             taskRepository.insertTask(task);
 
             backActivity();
