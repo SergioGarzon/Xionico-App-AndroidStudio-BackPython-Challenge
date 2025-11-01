@@ -13,5 +13,5 @@ App development in Android Studio
 * Django ninja framework
 
 ### Video explained:
-<br />
+
 [![Video explained](https://img.youtube.com/vi/xBhsrlbQKlA/0.jpg)](https://www.youtube.com/watch?v=xBhsrlbQKlA)
