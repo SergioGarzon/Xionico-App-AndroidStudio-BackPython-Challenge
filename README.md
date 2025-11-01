@@ -14,17 +14,16 @@ App development in Android Studio
 
 ### Screens
 
-#### Main:
+#### Main, New tasks and Houses:
 
-<img src="./Resources/Images/display-task.png" width="300" height="1300" alt="Image not found!" />
+<table>
+    <tr>
+        <td><img src="./Resources/Images/display-task.png" width="300" height="1300" alt="Image not found!" /></td>
+        <td><img src="./Resources/Images/display-new-task.png" width="300" height="1300" alt="Image not found!" /></td>
+        <td><img src="./Resources/Images/display-house.png" width="300" height="1300" alt="Image not found!" /></td>
+    </tr>
+</table>
 
-#### New Tasks:
-
-<img src="./Resources/Images/display-new-task.png" width="300" height="1300" alt="Image not found!" />
-
-#### Houses:
-
-<img src="./Resources/Images/display-house.png" width="300" height="1300" alt="Image not found!" />
 
 ### Video explained:
 
