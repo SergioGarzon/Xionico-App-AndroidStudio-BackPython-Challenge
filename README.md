@@ -16,15 +16,15 @@ App development in Android Studio
 
 #### Main:
 
-<img src="./Resources/Images/display-task.png" width="50" height="250" alt="Image not found!" />
+<img src="./Resources/Images/display-task.png" width="300" height="1500" alt="Image not found!" />
 
 #### New Tasks:
 
-<img src="./Resources/Images/display-new-task.png" width="50" height="250" alt="Image not found!" />
+<img src="./Resources/Images/display-new-task.png" width="300" height="1500" alt="Image not found!" />
 
 #### Houses:
 
-<img src="./Resources/Images/display-house.png" width="50" height="250" alt="Image not found!" />
+<img src="./Resources/Images/display-house.png" width="300" height="1500" alt="Image not found!" />
 
 ### Video explained:
 
